@@ -121,3 +121,43 @@ me.move(direction);
 var direction = ['up', 'left'][Math.floor(Math.random() * 2)];
 me.move(direction);
 ```
+
+11. robot
+
+- There's no walls for the robot, so just allow it to move down or right
+
+```js
+if (me.canMove('down')){
+  move('down');
+}
+if (me.canMove('right')){
+  move('right');
+}
+```
+
+12. robotNav
+
+- Unfortunately, I didn't find a best solution using canMove and move in this case.
+  So I used positional conditions to move the robot:
+
+```js
+if (me.getX() == 1 && me.getY() < 5) {
+  me.move('down');
+}
+
+if (me.getY() == 5 && me.getX() < 30) {
+  me.move('right');
+}
+
+if (me.getY() == 5 && me.getX() == 30) {
+  me.move('up');
+}
+
+if (me.getY() == 4 && me.getX() < 48) {
+  me.move('right');
+}
+
+if (me.getX() == 48) {
+  me.move('down');
+}
+```
