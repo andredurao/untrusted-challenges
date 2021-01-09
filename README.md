@@ -76,3 +76,48 @@ for(i = 0 ; i < colors.length ; i++) {
 var nextColor = colors[++index % colors.length]
 player.setColor(nextColor);
 ```
+
+## Chapter 2
+
+8. intoTheWoods
+
+- Render the fortress again on each phone call and move the player along the possible
+  combinations. In this challenge we can only change the string of function.
+
+```js
+// "generateForest"
+map.getPlayer().setPhoneCallback(functionList["generateForest"]);
+```
+
+9. fordingTheRiver
+
+- Define a phone call function to change the raft move direction.
+
+```js
+map.getPlayer().setPhoneCallback(function () {
+  raftDirection = 'up';
+});
+```
+
+10. ambush
+
+- Move the drone randomly to up or down + left or right in a way that on each player
+  step, the drone would move away from the central row
+
+- red:
+```js
+var direction = ['up', 'left'][Math.floor(Math.random() * 2)];
+me.move(direction);
+```
+
+- yellow:
+```js
+var direction = ['down', 'left'][Math.floor(Math.random() * 2)];
+me.move(direction);
+```
+
+- green:
+```js
+var direction = ['up', 'left'][Math.floor(Math.random() * 2)];
+me.move(direction);
+```
