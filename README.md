@@ -161,3 +161,86 @@ if (me.getX() == 48) {
   me.move('down');
 }
 ```
+
+13. robotMaze
+
+- Well... I didn't find a simpler way (yet) to solve this challenge, so I'm using a
+  Breadth-first finding algorithm to solve the puzzle.
+
+```js
+function getPos(me){
+  return {x: me.getX(), y: me.getY()};
+}
+function getAdjPos(cell){
+  return {x: cell[0][0], y: cell[0][1], dir: cell[1]};
+}
+function includePos(queue, pos){
+  let result = false;
+  for(item in queue){
+    if (item.x == pos.x && item.y == pos.y) {
+      result = true;
+    }
+  }
+  return result;
+}
+
+function backtrace(node) {
+  var path = [node];
+  while (node.parent) {
+      node = node.parent;
+      path.push(node);
+  }
+  return path.reverse();
+}
+
+let nodes = [];
+for(i=0;i<10;i++){
+  nodes[i] = [];
+  for(j=0;j<map.getWidth();j++){
+    nodes[i][j] = { visited: false };
+  }
+}
+function inspect(pos){
+  return "" + pos.x + "," + pos.y + " " + pos.dir;
+}
+function hasRepeatedNodes(route){
+  result = false;
+  routeMap = {};
+  route.forEach((node) => {
+    routeMap[inspect(node)] ? 1 : (routeMap[inspect(node)] + 1);
+  });
+  for (key in routeMap) {
+    if(routeMap[key] > 1) {
+      result = false;
+    }
+  }
+  return "" + result;
+}
+
+let pos = {x: me.getX(), y: me.getY()};
+let queue = [pos];
+nodes[pos.y][pos.x].visited = true;
+while(queue.length > 0){
+  pos = queue.shift();
+  // destination (key)
+  if (pos.x == map.getWidth() - 2 && pos.y == 8) {
+    break;
+  }
+  adjacentCells = map.getAdjacentEmptyCells(pos.x, pos.y);
+
+  adjacentCells.forEach((cell) => {
+    newPos = getAdjPos(cell);
+    pos.dir = newPos.dir;
+    if (!nodes[newPos.y][newPos.x].visited){
+      nodes[newPos.y][newPos.x].visited = true;
+      newPos.parent = pos;
+      queue.push(newPos);
+    }
+  });
+}
+
+let route = backtrace(pos);
+//map.writeStatus(route[1].dir);
+map.writeStatus(inspect(route[0]) + " " + route.length);
+me.move(route[0].dir);
+```
