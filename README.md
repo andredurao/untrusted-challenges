@@ -203,19 +203,6 @@ for(i=0;i<10;i++){
 function inspect(pos){
   return "" + pos.x + "," + pos.y + " " + pos.dir;
 }
-function hasRepeatedNodes(route){
-  result = false;
-  routeMap = {};
-  route.forEach((node) => {
-    routeMap[inspect(node)] ? 1 : (routeMap[inspect(node)] + 1);
-  });
-  for (key in routeMap) {
-    if(routeMap[key] > 1) {
-      result = false;
-    }
-  }
-  return "" + result;
-}
 function getMove(from, to){
   const directions = {
     "0-1": "up",
@@ -226,18 +213,30 @@ function getMove(from, to){
   move = "" + (to.x - from.x) + (to.y - from.y);
   return directions[move];
 }
+//key = 47,8
+function finalMove(pos){
+  destination = {x: 48, y: 8};
+  distance = {x: (destination.x - pos.x), y: (destination.y - pos.y)}
+  if (distance.x == 1) {
+    return "right";
+  }
+  if (distance.y == 1) {
+    return "down";
+  }
+}
 
-let pos = {x: me.getX(), y: me.getY()};
+let pos = {x: 1, y: 1};
 let queue = [pos];
 nodes[pos.y][pos.x].visited = true;
 while(queue.length > 0){
   pos = queue.shift();
   // destination (key)
-  if (pos.x == map.getWidth() - 2 && pos.y == 8) {
+  if (pos.x == 47 && pos.y == 8) {
     break;
   }
   adjacentCells = map.getAdjacentEmptyCells(pos.x, pos.y);
-  adjacentCells.forEach((cell) => {
+  for(cell_idx = 0 ; cell_idx < adjacentCells.length; cell_idx++){
+  cell = adjacentCells[cell_idx];
     newPos = getAdjPos(cell);
     pos.dir = newPos.dir;
     if (!nodes[newPos.y][newPos.x].visited){
@@ -245,11 +244,30 @@ while(queue.length > 0){
       newPos.parent = pos;
       queue.push(newPos);
     }
-  });
+  }
 }
 
-let route = backtrace(pos);
-move = getMove(route[0], route[1]);
-map.writeStatus(move);
-me.move(move);
+
+cur = getPos(me);
+if (cur.x == 48 && (cur.y >= 8 && cur.y < 10)) {
+  map.writeStatus(inspect(getPos(me)));
+  me.move("down");
+} else if(cur.x >= 47 && cur.y >= 7) {
+  map.writeStatus(inspect(getPos(me)));
+  move = finalMove(cur);
+  me.move(move)
+} else {
+  let route = backtrace(pos);
+  currentIndex = 0;
+  for(i = 0 ; i < route.length ; i++){
+    if(me.getX() == route[i].x && me.getY() == route[i].y){
+      currentIndex = i;
+      break;
+    }
+  }
+
+  move = getMove(route[i], route[i+1]);
+  map.writeStatus(inspect(getPos(me)));
+  me.move(move);
+}
 ```
