@@ -216,6 +216,16 @@ function hasRepeatedNodes(route){
   }
   return "" + result;
 }
+function getMove(from, to){
+  const directions = {
+    "0-1": "up",
+    "10": "right",
+    "01": "down",
+    "-10": "left",
+  };
+  move = "" + (to.x - from.x) + (to.y - from.y);
+  return directions[move];
+}
 
 let pos = {x: me.getX(), y: me.getY()};
 let queue = [pos];
@@ -227,7 +237,6 @@ while(queue.length > 0){
     break;
   }
   adjacentCells = map.getAdjacentEmptyCells(pos.x, pos.y);
-
   adjacentCells.forEach((cell) => {
     newPos = getAdjPos(cell);
     pos.dir = newPos.dir;
@@ -240,7 +249,7 @@ while(queue.length > 0){
 }
 
 let route = backtrace(pos);
-//map.writeStatus(route[1].dir);
-map.writeStatus(inspect(route[0]) + " " + route.length);
-me.move(route[0].dir);
+move = getMove(route[0], route[1]);
+map.writeStatus(move);
+me.move(move);
 ```
