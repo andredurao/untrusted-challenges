@@ -276,3 +276,46 @@ if (cur.x == 48 && (cur.y >= 8 && cur.y < 10)) {
   me.move(move);
 }
 ```
+
+14. crispsContest
+
+- There's just a string of where you can change in this challenge.
+- On the three previous challenges you've got the red, green and blue keys. This challenge you've have to find a way to get the [A]lgorithm using the keys.
+There are a few locks on the way and they are represented with the "⊗" symbol
+these locks can only be opened with their respective color keys.
+- To reach the goal you must have at least one yellow and one blue key.
+
+This is the path I've did:
+- Top-left path: Ends with a red, green and yellow keys
+- Top-right path: Ends with a gree, yellow and blue keys
+- Bottom path: Get the [A]lgorithm and yellow keys
+- Finish
+
+
+```js
+    //     +++++ +++++
+    //     + 2 +++ 3 +
+    //     +   +7+   +
+    //   +++ + + + + +++
+    //   + 1         4 +
+    //   +   +     +   +
+    //   +++++  @  +++++
+    //   +   +     +   +
+    //   +             +
+    //   ++++++ + ++++++
+    //       +  +  +
+    //       + 5 6 +
+    //       +++++++
+    map.defineObject('greenLock', {
+        'symbol': String.fromCharCode(0x2297),
+        'color': '#0f0',
+        'impassable': function (player) {
+            if (player.hasItem('blueKey')) {
+                player.removeItem('phone');
+                return false;
+            } else {
+                return true;
+            }
+        }
+    });
+```
