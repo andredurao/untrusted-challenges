@@ -361,3 +361,24 @@ player.killedBy(""+map.placeObject(1, 1, 'nothing'));
 ```
 SyntaxError: Unexpected token 'throw'
 ```
+
+16. lasers
+
+- We now have two editable areas: in createLaser function and startLevel functions
+- first: draw the lasers with their respective colors
+
+```js
+// using canvas to draw the line
+var ctx = map.getCanvasContext();
+ctx.beginPath();
+ctx.strokeStyle = color;
+ctx.lineWidth = 5;
+ctx.moveTo(x1, y1);
+ctx.lineTo(x2, y2);
+ctx.stroke();
+```
+
+- second: implement a phone callback to change the player color
+
+```js
+```
