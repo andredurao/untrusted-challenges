@@ -319,3 +319,45 @@ This is the path I've did:
         }
     });
 ```
+
+15. exceptionalCrossing
+
+- I've lost the Algorithm, but that's ok otherwise the game should've ended.
+  But now the only thing let to change is the killedBy message. My guess is that
+  I'd have to add a raft behaviour inside that block, but it's only a guess.
+- Also I still have a phone
+
+- This is the raft definition from challenge 9:
+
+```js
+map.defineObject('raft', {
+    'type': 'dynamic',
+    'symbol': '▓',
+    'color': '#420',
+    'transport': true, // (prevents player from drowning in water)
+    'behavior': function (me) {
+        me.move(raftDirection);
+    }
+});
+```
+
+- But when I've tried to use it as a one-line, the editable space only
+  accepts 50 characters and I've got this error:
+
+```
+SyntaxError: Invalid or unexpected token
+```
+
+- Since the definition is executed before the loop I've tried to define a object at 1,1
+  and with that, I was able to "walk" above the water. While I was crossing I received
+  the following error message: `There is no type of object named nothing`.
+```js
+player.killedBy(""+map.placeObject(1, 1, 'nothing'));
+```
+
+- In the end I think any function that throw an exception would work here, I've tried to
+  run `throw 'ex'` but it returns a SyntaxError, I've used the function above and moved
+  to the next level:
+```
+SyntaxError: Unexpected token 'throw'
+```
