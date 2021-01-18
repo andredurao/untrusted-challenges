@@ -381,4 +381,31 @@ ctx.stroke();
 - second: implement a phone callback to change the player color
 
 ```js
+player = map.getPlayer();
+player.setPhoneCallback(
+  function(){
+    colors = ['red', 'yellow', 'teal'];
+    index = Math.floor(Math.random() * 3);
+    player.setColor(colors[index]);
+  }
+);
+```
+
+17. pointers
+
+- This problem can be solved by changing the colors of the portals to a different
+  when they point to a trap and vice-versa.
+
+```js
+// TODO find a way to remove the API docs
+// wouldn't want the 'good doctor' to find
+// out about map.getCanvasCoords()...
+if (t2.getType() == 'trap'){
+  map.writeStatus("" + t1.getX() + "," + t1.getY());
+  map.setSquareColor(t1.getX(), t1.getY(), 'green');
+}
+if (t1.getType() == 'trap'){
+  map.writeStatus("" + t2.getX() + "," + t2.getY());
+  map.setSquareColor(t2.getX(), t2.getY(), 'green');
+}
 ```
