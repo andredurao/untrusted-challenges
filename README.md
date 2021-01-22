@@ -409,3 +409,16 @@ if (t1.getType() == 'trap'){
   map.setSquareColor(t2.getX(), t2.getY(), 'green');
 }
 ```
+
+18. superDrEvalBros
+
+- Well... I've didn't got the best solution for this challenge, but I've managed to
+  reach the exit. I only created a new timer running each 44ms, 1ms less than the
+  gravity. Called the phone (Q) and "floated" across the valley. When I was above
+  the exit, I've pressed down until the player entered the exit.
+
+```js
+map.startTimer(function(){
+  player.move("up");
+}, 44);
+```
