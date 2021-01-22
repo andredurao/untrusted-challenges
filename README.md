@@ -422,3 +422,33 @@ map.startTimer(function(){
   player.move("up");
 }, 44);
 ```
+
+19. documentObjectMadness
+
+![challenge 19](challenge19-1.png "challenge 19")
+
+- Ok, this is weird! First because there's no block of code in this challenge and
+  second the `map.defineObject('adversary'...` definition uses a random list of
+  movements so I think there's not a singular solution to this problem. But this is
+  how I solved:
+
+
+1. Moved 5 times up (moveToParent) until all page is green
+
+
+```
+Path: (h2 / start) -> (1 td) -> (2 tr) -> (3 table) -> (4 div) -> (5 div.container)
+```
+
+![challenge 19](challenge19-2.png "challenge 19")
+
+2. Move right or left (previous and next sibling) until a whole div element is
+   selected, that can be noticed because divs. At this point only the adversary
+   will move because the player is already at the root element and there's no siblings,
+   but you can see that the movements are random (see line 129).
+   So when you reach a div you have a 1/4 chance to move to the parent element
+   (container) and reach the objective (line 19).
+
+![challenge 19](challenge19-3.png "challenge 19")
+
+3. Continue until the adversary reaches the container and the next level starts
