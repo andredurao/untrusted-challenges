@@ -476,6 +476,8 @@ map.placeObject(map.getWidth() / 2, map.getHeight() - 4, 'block');
   algorithm shows on the screen and the exit will work.
 
 ```js
+map.setSquareColor(map.getWidth() / 2, 5, 'yellow')
+map.setSquareColor(map.getWidth() / 2, 6, 'yellow')
 map.placeObject(map.getWidth() / 2, map.getHeight() - 4, 'block');
 
 map.getPlayer().setPhoneCallback(function () {
@@ -483,24 +485,39 @@ map.getPlayer().setPhoneCallback(function () {
 });
 ```
 
-- :( Nope! I've got the following
+21. endOfTheLine
+
+- Got nothing so far, the only tip I've found on game exchange was that is possible
+  to edit scripts:
+
+![challenge 21](challenge21-1.png "challenge 21")
+
+- Honestly I haven't checked out that item on the menu until now, I've used levels
+  but didn't even realized that we could change the basic definitions.
+- Changed the exit condition on object.js from:
+```js
+if (!game.map.finalLevel) {
+```
+- to:
+```js
+if (true) {
+```
 
 ```js
-map.defineObject('robot', {
-  'type': 'dynamic',
-  'symbol': 'R',
-  'color': 'gray',
-  //'onCollision': function (player, me) {
-  //  me.giveItemTo(player, 'redKey');
-  //},
-  'behavior': function (me) {
-    if(me.canMove('down')){
-      me.move('down');
-    }
-    if(me.canMove('right')){
-      me.move('right');
-    }
-  }
-});
-map.placeObject(map.getWidth() / 2, map.getHeight() - 4, 'robot');
+Game.prototype.getListOfObjects = function () {
+    var game = this;
+    return {
+      // ...
+      'exit' : {
+            'symbol' : String.fromCharCode(0x2395), // ⎕
+            'color': '#0ff',
+            'onCollision': function (player) {
+                if (true) {
+                    game._callUnexposedMethod(function () {
+                        game._moveToNextLevel();
+                    });
+                }
+            }
+        },
+//...
 ```
