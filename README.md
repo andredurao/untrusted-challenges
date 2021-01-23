@@ -452,3 +452,55 @@ Path: (h2 / start) -> (1 td) -> (2 tr) -> (3 table) -> (4 div) -> (5 div.contain
 ![challenge 19](challenge19-3.png "challenge 19")
 
 3. Continue until the adversary reaches the container and the next level starts
+
+20. bossFight
+
+- I've added a single block in the middle of the path, waited for rain of shots to pass
+  it and moved until that block. After that waited for the cloud to move it's way back
+  and later walk until the phone. Ok, but before reach the exit I should have get the
+  algorithm.
+
+```js
+// A single block in the middle of the path between the start and the phone (right)
+map.placeObject(map.getWidth() / 2, map.getHeight() - 4, 'block');
+```
+
+1. Tried to define a new dynamic bullet object with the phone call function, but
+  got the following error: `There's already a type of object named bullet`
+2. Tried to define a new robot to fight boss but received this error:
+  `Too many objects on the map! Expected: 23, found: 24`
+
+- This is what I've did in the end, kept a "umbrella" block at the middle of the path
+  and a phone call back to shoot bullets in the middle of the path also. So after I've
+  got the phone I've started to hit Q and shoot the bosses. When all were killed the
+  algorithm shows on the screen and the exit will work.
+
+```js
+map.placeObject(map.getWidth() / 2, map.getHeight() - 4, 'block');
+
+map.getPlayer().setPhoneCallback(function () {
+  map.placeObject(map.getWidth() / 2, 4, 'bullet');
+});
+```
+
+- :( Nope! I've got the following
+
+```js
+map.defineObject('robot', {
+  'type': 'dynamic',
+  'symbol': 'R',
+  'color': 'gray',
+  //'onCollision': function (player, me) {
+  //  me.giveItemTo(player, 'redKey');
+  //},
+  'behavior': function (me) {
+    if(me.canMove('down')){
+      me.move('down');
+    }
+    if(me.canMove('right')){
+      me.move('right');
+    }
+  }
+});
+map.placeObject(map.getWidth() / 2, map.getHeight() - 4, 'robot');
+```
